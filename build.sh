@@ -16,7 +16,7 @@ python bootstrap.py --application-choice desktop
 # Clone gaia if needed, or just update.
 if [ ! -d ../gaia ]; then
 echo "Cloning gaia repository"
-git clone https://github.com/mozilla-b2g/gaia ../gaia
+git clone -b ronin https://github.com/Phoxygen/gaia ../gaia
 fi
 echo "updating repo  "
 cd ../gaia; DEVICE_DEBUG=1 GAIA_DEVICE_TYPE=phone DESKTOP_SHIMS=1 NOFTU=1 make; cd ..
@@ -30,7 +30,7 @@ echo "created archive"
 #If you want to use your own compiled build then run ./mach package after running ./mach build , you will then have a tar.bz2 file of your compiled build at your build directory under dist folder,copy that file to the home directory ,and comment out the previous line that downloads the b2g from ftp using wget.
 if [ ! -d gecko-dev ]; then
 echo "Cloning gecko repository"
-git clone https://github.com/mozilla/gecko-dev.git
+git clone -b ronin https://github.com/Phoxygen/gecko-dev
 fi
 echo "updating repo  "
 cd gecko-dev

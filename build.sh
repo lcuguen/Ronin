@@ -22,7 +22,7 @@ echo "updating repo  "
 cd ../gaia; DEVICE_DEBUG=1 GAIA_DEVICE_TYPE=phone DESKTOP_SHIMS=1 NOFTU=1 make; cd ..
 #cd ..
 # Create an archive of the profile.
-# tar --directory gaia/profile -cjf  b2gian/tmp/opt/b2g/profile.tar.bz2 `ls gaia/profile`
+tar --directory gaia/profile -cjf  b2gian/tmp/opt/b2g/profile.tar.bz2 `ls gaia/profile`
 echo "created archive"
 
 # Download the latest b2g desktop build and unpack it.

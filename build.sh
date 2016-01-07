@@ -8,7 +8,7 @@ mkdir -p tmp/opt/b2g
 mkdir -p tmp/usr/share/xsessions
 mkdir -p tmp/usr/share/unity-greeter #needed if session is unity
 mkdir -p tmp/usr/share/xgreeters      #for non-unity based distros
-mkdir -p tmp/debian
+mkdir -p tmp/DEBIAN
 
 #making sure necessary tools are installed
 python bootstrap.py --application-choice desktop
@@ -19,10 +19,10 @@ echo "Cloning gaia repository"
 git clone https://github.com/mozilla-b2g/gaia ../gaia
 fi
 echo "updating repo  "
-cd ../gaia; git pull; DEVICE_DEBUG=1 GAIA_DEVICE_TYPE=phone DESKTOP_SHIMS=1 NOFTU=1 make; cd ..
-
+cd ../gaia; DEVICE_DEBUG=1 GAIA_DEVICE_TYPE=phone DESKTOP_SHIMS=1 NOFTU=1 make; cd ..
+#cd ..
 # Create an archive of the profile.
-tar --directory gaia/profile -cjf  b2gian/tmp/opt/b2g/profile.tar.bz2 `ls gaia/profile`
+# tar --directory gaia/profile -cjf  b2gian/tmp/opt/b2g/profile.tar.bz2 `ls gaia/profile`
 echo "created archive"
 
 # Download the latest b2g desktop build and unpack it.
@@ -40,11 +40,12 @@ cat > mozconfig <<EOF
 
 mk_add_options MOZ_OBJDIR=../build
 mk_add_options MOZ_MAKE_FLAGS="-j4 -s"
+mk_add_options MOZ_DEVTOOLS=all
 
 ac_add_options --enable-application=b2g
 ac_add_options --disable-libjpeg-turbo
-ac_add_options --enable-debug
- 
+# ac_add_options --enable-debug
+
 # This option is required if you want to be able to run Gaia's tests
 ac_add_options --enable-tests
 
@@ -56,7 +57,7 @@ ac_add_options --enable-tests
 
 EOF
 
-git pull
+# git pull
 ./mach build
 ./mach package
 cd ../b2gian
@@ -66,16 +67,16 @@ cp launch.sh tmp/opt/b2g/launch.sh
 cp session.sh tmp/opt/b2g/session.sh
 cp b2g.desktop tmp/usr/share/xsessions/b2g.desktop
 
-touch tmp/debian/control
+touch tmp/DEBIAN/control
 
-cat > tmp/debian/control << EOF
+cat > tmp/DEBIAN/control << EOF
 Source: Fox-DE
 Package: Fox-DE
 Version: ${VERSION}
 Maintainer: Towfique Anam <anamtowfique@gmail.com>
 Homepage: https://github.com/r1n3m/b2gian
 Architecture: amd64
-Description: Boot 2 Gecko which is the technical name of Firefox OS (http://www.mozilla.org/en-US/firefox/os/) is a web based operating system .The project’s architecture eliminates the need for apps to be 
+Description: Boot 2 Gecko which is the technical name of Firefox OS (http://www.mozilla.org/en-US/firefox/os/) is a web based operating system .The project’s architecture eliminates the need for apps to be
  built on platform-specific native APIs which we commonly see in Devices. The OS extensibly uses HTML5, its apps are tailored for HTML5 and build using
  them.Developers has their freedom to do anything with their apps and can creates designs using the HTML5 technologies.While the deviceAPIs that are
  currently available are opensourced. The Current B2G nightly version is 2.1 and this package uses the nightly b2g version.
@@ -83,7 +84,7 @@ Description: Boot 2 Gecko which is the technical name of Firefox OS (http://www.
  open standards and the source code is open and accessible to all. WebAPIs to use most of the hardware of devices is being made and we are working with bodies to create APIs which are not yet available.
  .
 EOF
-cd tmp
-fakeroot dpkg-checkbuilddeps
-//fakeroot dpkg-deb -b tmp b2g_${VERSION}_amd64.deb
+
+fakeroot dpkg-checkbuilddeps DEBIAN/control
+fakeroot dpkg-deb -b tmp b2g_${VERSION}_amd64.deb
 echo "You can install your b2g package with |sudo dpkg -i b2g_${VERSION}_amd64.deb| and launch it with |/opt/b2g/launch.sh|"

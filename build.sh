@@ -12,6 +12,9 @@ mkdir -p tmp/DEBIAN
 
 #making sure necessary tools are installed
 python bootstrap.py --application-choice desktop
+sudo apt-get install libgstreamer-plugins-bad1.0-dev \
+  libgstreamer-plugins-base0.10-dev libgstreamer-plugins-base1.0-dev \
+  libgstreamer1.0-dev
 
 # Clone gaia if needed, or just update.
 if [ ! -d ../gaia ]; then

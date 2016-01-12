@@ -93,7 +93,7 @@ sources: gecko-sources gaia-sources
 build-gaia: gaia-sources
 	if [ ! -d ${BUILD_DIR}/gaia/profile ]; then mkdir -p ${BUILD_DIR}/gaia/profile; fi
 	cd ${GAIA_SOURCE_DIR} && \
-	DEVICE_DEBUG=1 GAIA_DEVICE_TYPE=phone DESKTOP_SHIMS=1 NOFTU=1 PROFILE_DIR=${BUILD_DIR}/gaia/profile make
+	DEVICE_DEBUG=1 GAIA_DEVICE_TYPE=phone DESKTOP_SHIMS=1 NOFTU=1 GAIA_DISTRIBUTION_DIR=distros/ronin PROFILE_DIR=${BUILD_DIR}/gaia/profile make
 
 ${BUILD_DIR}/gaia/profile:
 	$(MAKE) build-gaia

@@ -12,6 +12,8 @@ GECKO_VERSION?=46
 CUSTOM_MOZCONFIG?=
 RESOLUTION?=800x600
 B2G_PROFILE_PATH?=${HOME}/.mozilla/b2g/xsession.profile
+XKB_LAYOUT?=$(strip $(shell setxkbmap -query|grep layout|cut -d: -f2))
+XKB_VARIANT?=$(strip $(shell setxkbmap -query|grep variant|cut -d: -f2))
 ######
 
 ##### Git repo validity check
@@ -134,7 +136,9 @@ run: ${BUILD_DIR}/.runtime_deps_ready ${BUILD_DIR}/gecko/dist/b2g ${B2G_PROFILE_
 	cp -aT ${BUILD_DIR}/gaia/profile ${B2G_PROFILE_PATH}
 	cd ${BUILD_DIR}/gecko/dist/b2g/ && \
 	startx ./b2g -no-remote -profile ${B2G_PROFILE_PATH} --screen ${RESOLUTION} -- /usr/bin/Xephyr \
-		-title "RoninOS" -ac -br -noreset -screen ${RESOLUTION}
+        -title "RoninOS" -ac -br -noreset -screen ${RESOLUTION} \
+                -keybd ephyr,xkbmodel=evdev,xkblayout=${XKB_LAYOUT},xkbvariant=${XKB_VARIANT}
+	done
 	
 ${BUILD_DIR}/gaia/profile.tar.bz2: ${BUILD_DIR}/gaia/profile
 	cd ${BUILD_DIR} && \

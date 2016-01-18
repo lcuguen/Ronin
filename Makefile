@@ -91,7 +91,7 @@ gaia-sources: ${GAIA_SOURCE_DIR}
 	fi
 
 ${WETTY_SOURCE_DIR}:
-	git clone https://github.com/Phoxygen/wetty ${WETTY_SOURCE_DIR}
+	git clone -b ronin https://github.com/Phoxygen/wetty ${WETTY_SOURCE_DIR}
 
 wetty-sources: ${WETTY_SOURCE_DIR}
 

@@ -15,8 +15,10 @@ RESOLUTION?=800x600
 B2G_PROFILE_PATH?=${HOME}/.mozilla/b2g/xsession.profile
 XKB_LAYOUT?=$(strip $(shell setxkbmap -query|grep layout|cut -d: -f2))
 XKB_VARIANT?=$(strip $(shell setxkbmap -query|grep variant|cut -d: -f2))
-PACKAGE_VERSION?=${GECKO_VERSION}.${DATETIME}
-PACKAGE_DIR?=${BUILD_DIR}/package/ronin-${PACKAGE_VERSION}
+RONIN_PACKAGE_VERSION?=${GECKO_VERSION}.${DATETIME}
+WETTY_PACKAGE_VERSION?=0.2.${DATETIME}
+PACKAGE_DIR?=${BUILD_DIR}/package
+INIT_SYSTEM?=upstart
 ######
 
 ##### Git repo validity check
@@ -158,35 +160,52 @@ clean-package:
 
 ###### Build deb package
 # We need gaia profile, gecko build and a few scripts
-package: clean-package ${BUILD_DIR}/gaia/profile.tar.bz2 ${BUILD_DIR}/gecko/dist/b2g
-	if [ ! -d ${PACKAGE_DIR} ]; then mkdir -p ${PACKAGE_DIR}; fi
-	if [ ! -d ${PACKAGE_DIR}/wetty ]; then mkdir -p ${PACKAGE_DIR}/wetty; fi
+package: clean-package ronin-package wetty-package
+
+###### Ronin deb package
+RONIN_PACKAGE_DIR?=${PACKAGE_DIR}/ronin/ronin-${RONIN_PACKAGE_VERSION}
+clean-ronin-package:
+	if [ -d ${PACKAGE_DIR}/ronin ]; then rm -rf ${PACKAGE_DIR}/ronin; fi
+
+ronin-package: clean-ronin-package ${BUILD_DIR}/gaia/profile.tar.bz2 ${BUILD_DIR}/gecko/dist/b2g
+	mkdir -p ${RONIN_PACKAGE_DIR}/debian
 	
 	# Prepare package dir
-	tar --directory ${PACKAGE_DIR} -xjf ${BUILD_DIR}/gecko/dist/b2g-${GECKO_VERSION}.0a1.en-US.linux-x86_64.tar.bz2
-	cp ${BUILD_DIR}/gaia/profile.tar.bz2 ${PACKAGE_DIR} 
-	cp ${mkfile_dir}/launch.sh ${PACKAGE_DIR}
-	cp ${mkfile_dir}/session.sh ${PACKAGE_DIR}
-	cp ${mkfile_dir}/ronin.desktop ${PACKAGE_DIR}
-
-	cd ${WETTY_SOURCE_DIR} && cp -r app.js package.json public ${PACKAGE_DIR}/wetty
-
-	mkdir ${PACKAGE_DIR}/debian
-	# Add systemd file. Unit names must match package name
-	# so use ronin.* for now
-	cd ${WETTY_SOURCE_DIR}/systemd && \
-		cp wetty.service ${PACKAGE_DIR}/debian/ronin.service && \
-		cp wetty.socket ${PACKAGE_DIR}/debian/ronin.socket
-	cd ${WETTY_SOURCE_DIR}/upstart && \
-		cp wetty.conf ${PACKAGE_DIR}/debian/ronin.upstart
+	tar --directory ${RONIN_PACKAGE_DIR} -xjf ${BUILD_DIR}/gecko/dist/b2g-${GECKO_VERSION}.0a1.en-US.linux-x86_64.tar.bz2
+	cp ${BUILD_DIR}/gaia/profile.tar.bz2 ${RONIN_PACKAGE_DIR} 
+	cp ${mkfile_dir}/launch.sh ${RONIN_PACKAGE_DIR}
+	cp ${mkfile_dir}/session.sh ${RONIN_PACKAGE_DIR}
+	cp ${mkfile_dir}/ronin.desktop ${RONIN_PACKAGE_DIR}
 
 	# Add files to debian folder
-	cp ${mkfile_dir}/debian/* ${PACKAGE_DIR}/debian
-	sed -i 's/RONIN_VERSION/${PACKAGE_VERSION}/' ${PACKAGE_DIR}/debian/changelog
-	sed -i 's/RONIN_VERSION/${PACKAGE_VERSION}/' ${PACKAGE_DIR}/debian/files
+	cp ${mkfile_dir}/debian/ronin/* ${RONIN_PACKAGE_DIR}/debian
+	sed -i 's/RONIN_VERSION/${RONIN_PACKAGE_VERSION}/' ${RONIN_PACKAGE_DIR}/debian/changelog
+	sed -i 's/RONIN_VERSION/${RONIN_PACKAGE_VERSION}/' ${RONIN_PACKAGE_DIR}/debian/files
 
 	# Build package
-	cd ${PACKAGE_DIR} && debuild -us -uc -b
+	cd ${RONIN_PACKAGE_DIR} && debuild -us -uc -b
+
+###### Wetty deb package
+WETTY_PACKAGE_DIR?=${PACKAGE_DIR}/wetty/wetty-${WETTY_PACKAGE_VERSION}
+clean-wetty-package: 
+	if [ -d ${PACKAGE_DIR}/wetty ]; then rm -rf ${PACKAGE_DIR}/wetty; fi
+
+wetty-package: clean-wetty-package
+	mkdir -p ${WETTY_PACKAGE_DIR}/debian
+	
+	# Prepare package dir
+	cd ${WETTY_SOURCE_DIR} && cp -r app.js package.json public ${WETTY_PACKAGE_DIR}/
+	
+	# Add systemd or upstart file. Unit names must match package name
+	cp ${WETTY_SOURCE_DIR}/${INIT_SYSTEM}/* ${WETTY_PACKAGE_DIR}/debian/
+
+	# Add files to debian folder
+	cp ${mkfile_dir}/debian/wetty/* ${WETTY_PACKAGE_DIR}/debian
+	sed -i 's/WETTY_VERSION/${WETTY_PACKAGE_VERSION}/' ${WETTY_PACKAGE_DIR}/debian/changelog
+	sed -i 's/WETTY_VERSION/${WETTY_PACKAGE_VERSION}/' ${WETTY_PACKAGE_DIR}/debian/files
+
+	# Build package
+	cd ${WETTY_PACKAGE_DIR} && debuild -us -uc -b
 
 clean:
 	if [ -d ${BUILD_DIR} ]; then rm -rfI ${BUILD_DIR}; fi

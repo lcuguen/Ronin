@@ -1,0 +1,13 @@
+Source: wetty
+Section: unknown
+Priority: optional
+Maintainer: Phoxygen <tech@phoxygen.com>
+Build-Depends: debhelper (>=9), dh-systemd
+Standards-Version: 3.9.6
+Homepage: https://github.com/krishnasrinivas/wetty
+Vcs-Git: https://github.com/krishnasrinivas/wetty.git
+
+Package: wetty
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, nodejs, npm
+Description: Terminal in browser over http/https

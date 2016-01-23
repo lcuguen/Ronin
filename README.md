@@ -53,4 +53,4 @@ $ make package
 
 Credits
 ------
-This work has its roots on a old project which can be found at [https://github.com/fabricedesre/b2gian]
+This work has its roots in a old project which can be found at [https://github.com/fabricedesre/b2gian]

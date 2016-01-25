@@ -2,7 +2,7 @@ Source: ronin
 Section: unknown
 Priority: optional
 Maintainer: Phoxygen <tech@phoxygen.com>
-Build-Depends: debhelper (>=9), dh-systemd
+Build-Depends: debhelper (>=9)
 Standards-Version: 3.9.6
 Homepage: https://github.com/Phoxygen/Ronin
 Vcs-Git: https://github.com/Phoxygen/Ronin.git

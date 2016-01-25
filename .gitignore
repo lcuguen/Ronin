@@ -1,5 +1,4 @@
-tmp/
-build/
-gaia/
-gecko-dev/
-wetty/
+/build/
+/gaia/
+/gecko-dev/
+/wetty/

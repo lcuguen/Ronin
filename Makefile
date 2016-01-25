@@ -191,3 +191,9 @@ package: clean-package ${BUILD_DIR}/gaia/profile.tar.bz2 ${BUILD_DIR}/gecko/dist
 clean:
 	if [ -d ${BUILD_DIR} ]; then rm -rfI ${BUILD_DIR}; fi
 	if [ -f ${GECKO_SOURCE_DIR}/mozconfig ]; then rm ${GECKO_SOURCE_DIR}/mozconfig; fi
+
+clean-gaia:
+	if [ -d ${BUILD_DIR}/gaia ]; then rm -rfI ${BUILD_DIR}/gaia; fi
+	cd ${GAIA_SOURCE_DIR} && make clean
+	@echo "${GAIA_SOURCE_DIR} has been cleaned."
+	@echo Consider removing ~/.mozilla/b2g/xsession.profile/

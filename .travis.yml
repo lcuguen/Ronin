@@ -7,4 +7,4 @@ notifications:
     use_notice: true
 
    email:
-   - loic@phoxygen.com
+   - loic@cuguen.org

@@ -1,0 +1,10 @@
+install:
+  make && make package
+notifications:
+  irc:
+    channels:
+     - "irc.mozilla.org#ronin"
+    use_notice: true
+
+   email:
+   - loic@phoxygen.com

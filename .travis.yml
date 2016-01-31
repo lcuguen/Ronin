@@ -1,7 +1,7 @@
 language: C++
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y install autoconf2.13 build-essential ccache python-dev python-pip python-setuptools unzip uuid zip
+  - sudo apt-get install -y autoconf2.13 build-essential ccache python-dev python-pip python-setuptools unzip uuid zip
 script:
   make build
 cache:

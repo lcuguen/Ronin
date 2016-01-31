@@ -1,5 +1,8 @@
 script:
   make && make package
+cache:
+  directories:
+   - build 
 notifications:
   irc:
     channels:

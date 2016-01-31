@@ -1,4 +1,4 @@
-Welcome to`Ronin` OS!
+Welcome to`Ronin` OS! [![](https://travis-ci.org/lcuguen/Ronin.svg)](https://travis-ci.org/lcuguen/ronin)
 ===================
 
 What is `Ronin`?

@@ -8,7 +8,7 @@ GECKO_SOURCE_DIR?=$(abspath ${mkfile_dir}/gecko-dev)
 GAIA_SOURCE_DIR?=$(abspath ${mkfile_dir}/gaia)
 WETTY_SOURCE_DIR?=$(abspath ${mkfile_dir}/wetty)
 # Used to increment .deb package version
-DATETIME?=$(shell date +%d%m%y%H%M)
+DATETIME?=$(shell date +%y%m%d%H%M)
 GECKO_VERSION?=46
 CUSTOM_MOZCONFIG?=
 RESOLUTION?=800x600

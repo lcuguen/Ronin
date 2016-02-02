@@ -13,8 +13,7 @@ script:
   - travis_retry make sources
   - make build-wetty
   - make build-gaia
-#  - make build-gecko
+  - make build-gecko
 #  - make package
 cache:
-  directories:
-   - $HOME/build
+  ccache

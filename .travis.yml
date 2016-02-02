@@ -9,7 +9,7 @@ before_install:
   - travis_retry sudo pip install --upgrade mercurial
   - travis_retry sudo apt-get install -y autoconf2.13 build-essential ccache python-dev python-pip python-setuptools unzip uuid zip libasound2-dev libcurl4-openssl-dev libdbus-1-dev libdbus-glib-1-dev libgconf2-dev libgtk2.0-dev libgtk-3-dev libiw-dev libnotify-dev libpulse-dev libxt-dev mesa-common-dev python-dbus yasm xvfb
 script:
-  - travis_retry make build/.build_deps_ready
+#  - travis_retry make build/.build_deps_ready
   - travis_retry make sources
   - make build-wetty
   - make build-gaia

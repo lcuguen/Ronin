@@ -16,7 +16,5 @@ script:
   - make build-gecko
   - make package
 cache:
-  - directories:
+  directories:
    - $HOME/build
-  - apt
-  - ccache

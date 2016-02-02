@@ -9,5 +9,5 @@ Vcs-Git: https://github.com/krishnasrinivas/wetty.git
 
 Package: wetty
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, nodejs, npm
+Depends: ${shlibs:Depends}, ${misc:Depends}, nodejs, npm, openssh-server
 Description: Terminal in browser over http/https

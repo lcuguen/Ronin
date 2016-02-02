@@ -9,14 +9,14 @@ before_install:
   - sudo pip install --upgrade mercurial
   - sudo apt-get install -y autoconf2.13 build-essential ccache python-dev python-pip python-setuptools unzip uuid zip libasound2-dev libcurl4-openssl-dev libdbus-1-dev libdbus-glib-1-dev libgconf2-dev libgtk2.0-dev libgtk-3-dev libiw-dev libnotify-dev libpulse-dev libxt-dev mesa-common-dev python-dbus yasm xvfb
 script:
-  make build/.build_deps_ready
-  make sources
-  make build-wetty
-  make build-gaia
-  make build-gecko
-  make package
+  - make build/.build_deps_ready
+  - make sources
+  - make build-wetty
+  - make build-gaia
+  - make build-gecko
+  - make package
 cache:
-  directories:
+  - directories:
    - $HOME/build
-  apt
-  ccache
+  - apt
+  - ccache

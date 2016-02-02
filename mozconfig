@@ -7,3 +7,5 @@ ac_add_options --disable-libjpeg-turbo
 
 # This option is required if you want to be able to run Gaia's tests
 ac_add_options --enable-tests
+
+ ac_add_options --with-ccache=/usr/bin/ccache

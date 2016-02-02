@@ -13,4 +13,8 @@ if [ "${PROFILE}" -ot "/opt/b2g/profile.tar.bz2" ]; then
 	tar --directory ${PROFILE} -xjf /opt/b2g/profile.tar.bz2
 fi
 
+if [ -f "${HOME}/.Xmodmap" ]; then
+       xmodmap ${HOME}/.Xmodmap
+fi
+
 /opt/b2g/b2g/b2g -no-remote -profile ${PROFILE} $1

@@ -20,6 +20,11 @@ set -e
 
 case "$1" in
     configure)
+    if ! hash node 2>/dev/null && [ ! -f /usr/bin/node ] ; then
+      # Add missing node link
+      ln -s /usr/bin/nodejs /usr/bin/node
+    fi
+
 		cd /opt/b2g/wetty && npm install --silent > /dev/null 2>&1
     ;;
 

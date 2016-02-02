@@ -13,4 +13,6 @@ script:
   make build
 cache:
   directories:
-   - build
+   - $HOME/build
+  apt
+  ccache

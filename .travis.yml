@@ -17,6 +17,7 @@ script:
 #  - make package
 cache:
   directories:
+  - $HOME/build
   - $HOME/.cache
   - $HOME/.ccache
   - apt
